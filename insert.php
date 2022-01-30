@@ -9,23 +9,31 @@ $genre = $_POST['genre'];
 $rate = $_POST['rate'];
 $kanso = $_POST['kanso'];
 
-
-
+// ファイルのアップロード先
+$targetDir = "uploads/";
+$fileName = basename($_FILES["file"]["name"]);
+$targetFilePath = $targetDir . $fileName;
+$fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 
 // 2. DB接続します
-try {
-  //Password:MAMP='root',XAMPP=''
-  $pdo = new PDO('mysql:dbname=gs_pj;charset=utf8;host=localhost','root','root');
-} catch (PDOException $e) {
-  exit('DBConnectError:'.$e->getMessage());
-}
+require_once('funcs.php');
+$pdo = db_conn();
 
 
 // ３．SQL文を用意(データ登録：INSERT)
-$stmt = $pdo->prepare(
-  "INSERT INTO my_mv_log(id,name,title,genre,rate,kanso,indate)
-  VALUES( NULL, :name, :title, :genre, :rate, :kanso, sysdate())"
-);
+if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
+  // 特定のファイル形式の許可
+  $allowTypes = array('jpg','png','jpeg','gif','pdf');
+  if(in_array($fileType, $allowTypes)){
+      // サーバーにファイルをアップロード
+      if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
+          // データベースに画像ファイル名を挿入
+          $stmt = $pdo->prepare(
+            "INSERT INTO my_mv_log(id,name,title,genre,rate,scene,kanso,indate)
+            VALUES( NULL, :name, :title, :genre, :rate, $fileName, :kanso, sysdate())"
+          );
+        }}};
+
 //$nameのようにユーザーが入力したものをそのまま引っ張ると危険。:を付けることでバインド関数を用意
 
 // 4. バインド変数を用意(セキュリティ対策)
@@ -34,6 +42,7 @@ $stmt->bindValue(':title', $title, pdo::PARAM_STR);  //Integer（数値の場合
 $stmt->bindValue(':genre', $genre, pdo::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':rate', $rate, pdo::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':kanso', $kanso, pdo::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+
 
 // 5. 実行
 $status = $stmt->execute();

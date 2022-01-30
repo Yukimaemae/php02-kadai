@@ -24,11 +24,26 @@ if($status==false) {
   //Selectデータの数だけ自動でループしてくれる
   //FETCH_ASSOC=http://php.net/manual/ja/pdostatement.fetch.php
   while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){ 
-    $view .= "<p>";
-    $view .= '投稿日: '.$result['indate'].'<br>'.'投稿者: '.$result['name'].'<br>'.'タイトル: '.$result['title'].'<br>'.'ジャンル:  '.$result['genre'].'<br>'.'評価:  '.$result['rate'].'<br>'.'感想: '.$result['kanso'];
-    $view .= "</p>";
+    $imageURL = 'uploads/'.$result["scene"];
+    $view .= '<li class="card">';
+    $view .= '投稿日: ';
+    $view .= '<a href="detail.php?id='.$result['id'].' ">'.$result['indate'].'  ';
+    $view .='投稿者: '.$result['name'].'</a>';
+    $view .= '</a>';
+    $view .= '<a href="delete.php?id='.$result['id'].' ">';
+    $view .= '      [ Delete ]';
+    $view .= '</a>'.'<br>';
+    $view .= 'タイトル: '.$result['title'].'<br>';
+    $view .= 'ジャンル:  '.$result['genre'].'<br>';
+    $view .= '評価:  '.$result['rate'].'<br>';
+    $view .= 'お気に入りのシーン:  '.'<img Src ='.$imageURL.'/>'.'<br>';
+    $view .= '感想: '.$result['kanso'];
+    $view .= '</a>';
+    $view .= '<a href="delete.php?id='.$result['id'].' ">';
+    $view .= '      [ Delete ]';
+    $view .= '</a>';
+    $view .= '</li>';
   }
-
 }
 ?>
 

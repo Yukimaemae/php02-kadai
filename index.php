@@ -19,7 +19,8 @@
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
-<form method="POST" action="insert.php">
+<form method="POST" enctype="multipart/form-data" action="insert.php">
+      
   <div class="jumbotron">
    <fieldset>
     <legend>My Movie Log</legend>
@@ -38,6 +39,10 @@
        <option value="5">5</option>
       </select>
      </label><br>
+     <label>お気に入りシーン：<br>
+     <input type="file" name="up">
+     <!--  <input type="submit" value="アップロード"> -->
+      </label><br>
      <label>感想：<br>
      <textArea name="kanso" rows="4" cols="40"></textArea></label><br>
      <input type="submit" value="送信">
