@@ -1,11 +1,11 @@
 <?php
 //insert.phpの処理を持ってくる
 //1. POSTデータ取得
-$name   = $_POST["name"];
-$email  = $_POST["email"];
-$age    = $_POST["age"];
-$content = $_POST["content"];
-$id = $_POST["id"];
+$name = $_POST['name'];
+$title = $_POST['title'];
+$genre = $_POST['genre'];
+$rate = $_POST['rate'];
+$kanso = $_POST['kanso'];
 
 
 //2. DB接続します
@@ -14,17 +14,17 @@ $pdo = db_conn();
 
 //３．データ更新SQL作成（UPDATE テーブル名 SET 更新対象1=:更新データ ,更新対象2=:更新データ2,... WHERE id = 対象ID;）
 $stmt = $pdo->prepare(
-    "UPDATE gs_an_table SET
-    name=:name, email=:email, age=:age, content=:content, indate=sysdate() 
+    "UPDATE my_mv_log SET
+    name=:name, title=:title, genre=:genre, rate=:rate, kanso=:kanso, indate=sysdate() 
     WHERE id=:id"
   );
 
 // 4. バインド変数を用意
-$stmt->bindValue(':name', $name, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue(':age', $age, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue(':email', $email, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue(':content', $content, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue(':id', $id, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':name', $name, pdo::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':title', $title, pdo::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':genre', $genre, pdo::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':rate', $rate, pdo::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':kanso', $kanso, pdo::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 
 
 // 5. 実行

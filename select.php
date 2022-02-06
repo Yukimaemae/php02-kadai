@@ -1,13 +1,21 @@
 <?php
-//1.  DB接続します
-try {
-  //Password:MAMP='root',XAMPP=''
-  $pdo = new PDO('mysql:dbname=gs_pj;charset=utf8;host=localhost','root','root');
-} catch (PDOException $e) {
-  exit('DBConnectError:'.$e->getMessage());
-}
+//SESSIONスタート
+session_start();
 
-//２．SQL文を用意(データ取得：SELECT)
+//関数を呼び出す
+require_once('funcs.php');
+
+//ログインチェック
+loginCheck();
+
+
+//以下ログインユーザーのみ
+$user_name = $_SESSION['name'];
+//$kanri_flg = $_SESSION['kanri_flg'];
+
+
+//２．データ登録SQL作成
+$pdo = db_conn(); 
 $stmt = $pdo->prepare("SELECT * FROM my_mv_log");
 
 //3. 実行
@@ -64,10 +72,14 @@ if($status==false) {
 <header>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <div class="navbar-header">
-      <a class="navbar-brand" href="index.php">データ登録</a>
-      </div>
+    <div class="navbar-header"><a class="navbar-brand" href="index.php">My movie Log</a></div>
+    <a class="navbar-brand" href="post.php">新規投稿</a>
+    <a class="navbar-brand" href="select.php">投稿一覧</a>
+    <a class="navbar-brand" href="login.php">ログイン</a>
+    <a class="navbar-brand" href="logout.php">ログアウト</a>
+    <a class="navbar-brand" href="user.php">ユーザー登録</a>
     </div>
+    <p><?= $user_name ?></p>
   </nav>
 </header>
 <!-- Head[End] -->

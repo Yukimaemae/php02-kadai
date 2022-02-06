@@ -10,7 +10,7 @@ $rate = $_POST['rate'];
 $kanso = $_POST['kanso'];
 
 // ファイルのアップロード先
-$targetDir = "uploads/";
+$targetDir = "./uploads";
 $fileName = basename($_FILES["file"]["name"]);
 $targetFilePath = $targetDir . $fileName;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
@@ -18,7 +18,6 @@ $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 // 2. DB接続します
 require_once('funcs.php');
 $pdo = db_conn();
-
 
 // ３．SQL文を用意(データ登録：INSERT)
 if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
@@ -54,6 +53,6 @@ if($status==false){
   exit("ErrorMassage:".$error[2]);
 }else{
   //５．index.phpへリダイレクト
-  header('Location: index.php');
+  header('Location: select.php');
 }
 ?>

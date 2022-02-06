@@ -44,14 +44,20 @@ if ($status == false){
 <header>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-    <div class="navbar-header"><a class="navbar-brand" href="select.php">My movie Log</a></div>
+    <div class="navbar-header"><a class="navbar-brand" href="index.php">My movie Log</a></div>
+    <a class="navbar-brand" href="post.php">新規投稿</a>
+    <a class="navbar-brand" href="select.php">投稿一覧</a>
+    <a class="navbar-brand" href="login.php">ログイン</a>
+    <a class="navbar-brand" href="logout.php">ログアウト</a>
+    <a class="navbar-brand" href="user.php">ユーザー登録</a>
     </div>
+    <p><?= $user_name ?></p>
   </nav>
 </header>
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
-<form method="POST" enctype="multipart/form-data" action="insert.php">
+<form method="POST" enctype="multipart/form-data" action="update.php">
       
   <div class="jumbotron">
    <fieldset>
